@@ -1,6 +1,6 @@
-Create Database Univ
+Create Database Univ_Angel
 go
-Use Univ
+Use Univ_Angel
 Go
 Create Table Niveles(
     ID tinyint not null primary key identity (1, 1),
