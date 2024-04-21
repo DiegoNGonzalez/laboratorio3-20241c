@@ -30,7 +30,7 @@ use Univ_Angel
 --     ELSE d.Domicilio
 -- END as 'Informacion de Contacto'
 -- FROM Usuarios u
--- INNER JOIN Datos_Personales d ON u.ID = d.ID 
+-- INNER JOIN Datos_Personales d ON u.ID = d.ID
 
 --5 Listado con apellido y nombres, nombre del curso y costo de la inscripción de todos los usuarios inscriptos a cursos.
 -- NOTA: No deben figurar los usuarios que no se inscribieron a ningún curso.
@@ -57,7 +57,7 @@ use Univ_Angel
 -- INNER JOIN Pagos p on i.ID = p. IDInscripcion
 
 -- 8 Listado con nombre y apellidos, género, fecha de nacimiento, mail, nombre del curso y fecha de certificación de todos aquellos usuarios que se hayan certificado.
--- SELECT d.Nombres, d.Apellidos, d.Nacimiento, d.Genero, d.Email, cu.Nombre as 'Nombre del curso', c.Fecha as 'Fecha de certificacion'
+-- SELECT d.Nombres, d.Apellidos, d.Nacimiento, d.Email, cu.Nombre as 'Nombre del curso', c.Fecha as 'Fecha de certificacion'
 -- FROM Datos_Personales d 
 -- INNER JOIN Inscripciones i on d.ID = i.IDUsuario
 -- INNER JOIN Cursos cu on cu.ID = i.IDCurso
@@ -116,7 +116,7 @@ use Univ_Angel
 -- 17 Listado con nombre de usuario, apellido, nombres, género, fecha de nacimiento y mail de todos los usuarios que no cursaron ningún curso.
 -- SELECT u.NombreUsuario, d.Apellidos, d.Nombres, d.Genero, d.Nacimiento, d.Email
 -- FROM Usuarios u
--- LEFT JOIN Datos_Personales d on u.ID = d.ID
--- LEFT JOIN Inscripciones i on i.IDUsuario = d.ID
+-- INNER JOIN Datos_Personales d on u.ID = d.ID
+-- LEFT JOIN Inscripciones i on i.IDUsuario = u.ID
 -- WHERE i.IDUsuario is null 
 
