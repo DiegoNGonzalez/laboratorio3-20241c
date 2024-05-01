@@ -120,3 +120,12 @@ use Univ_Angel
 -- LEFT JOIN Inscripciones i on i.IDUsuario = u.ID
 -- WHERE i.IDUsuario is null 
 
+-- 18 Listado con nombre y apellido, nombre del curso, puntaje otorgado y texto de la reseña. Sólo de aquellos usuarios que hayan realizado una reseña inapropiada.
+-- SELECT d.Nombres, d.Apellidos, c.Nombre, r.Puntaje, r.Observaciones
+-- FROM Datos_Personales d 
+-- INNER JOIN Inscripciones i on d.ID= i.IDUsuario
+-- INNER JOIN Cursos c on i.IDCurso= c.ID
+-- INNER JOIN Reseñas r on r.IDInscripcion= i.ID
+-- WHERE r.Inapropiada=1
+
+-- 19 Listado con nombre del curso, costo de cursado, costo de certificación, nombre del idioma y nombre del tipo de idioma de todos los cursos cuya fecha de estreno haya sido antes del año actual. Ordenado por nombre del curso y luego por nombre de tipo de idioma. Ambos ascendentemente.
