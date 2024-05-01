@@ -129,3 +129,25 @@ use Univ_Angel
 -- WHERE r.Inapropiada=1
 
 -- 19 Listado con nombre del curso, costo de cursado, costo de certificación, nombre del idioma y nombre del tipo de idioma de todos los cursos cuya fecha de estreno haya sido antes del año actual. Ordenado por nombre del curso y luego por nombre de tipo de idioma. Ambos ascendentemente.
+-- SELECT c.Nombre, c.CostoCurso, c.CostoCertificacion, i.Nombre , fi.Nombre
+-- FROM Cursos c 
+-- INNER JOIN Idiomas_x_Curso ic on c.ID = ic.IDCurso
+-- INNER JOIN Idiomas i on i.ID = ic.IDIdioma
+-- INNER JOIN FormatosIdioma fi on fi.ID = ic.IDFormatoIdioma
+-- WHERE YEAR(c.Estreno) < YEAR(GETDATE()) order BY c.Nombre ASC, fi.Nombre ASC
+
+-- 20 Listado con nombre del curso y todos los importes de los pagos relacionados.
+-- SELECT c.Nombre, p.Importe
+-- FROM Cursos c 
+-- INNER JOIN Inscripciones i on i.IDCurso=c.ID
+-- INNER JOIN Pagos p on p.IDInscripcion = i.ID
+
+-- 21 Listado con nombre de curso, costo de cursado y una leyenda que indique "Costoso" si el costo de cursado es mayor a $ 15000, "Accesible" si el costo de cursado está entre $2500 y $15000, "Barato" si el costo está entre $1 y $2499 y "Gratis" si el costo es $0.
+-- select c.Nombre, c.CostoCurso, 
+-- CASE
+--     WHEN c.CostoCurso >15000 then 'Costoso'
+--     WHEN c.CostoCurso <= 15000 and c.CostoCurso >= 2500 then 'Accesible'
+--     WHEN c.CostoCurso <2500 and c.CostoCurso >0 then 'Barato'
+--     WHEN c.CostoCurso = 0 then 'Gratis'
+-- END as 'Clasificacion'
+-- from Cursos c
