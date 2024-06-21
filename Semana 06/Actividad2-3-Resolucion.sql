@@ -57,21 +57,60 @@ left JOIN Cursos c on i.IDCurso= c.ID
 GROUP BY d.Apellidos+','+d.Nombres
 
 -- 16 Listado con el nombre del curso, nombre del nivel, cantidad total de clases y duración total del curso en minutos.
+select c.Nombre Curso, n.Nombre Nivel, COUNT(cl.ID) as 'Cantidad Total de Clases', sum(cl.Duracion) as'Duracion total curso' from Cursos c
+INNER JOIN  Clases cl on c.ID = cl.IDCurso
+INNER JOIN Niveles n on c.IDNivel = n.ID
+GROUP BY c.Nombre, n.Nombre  
 
 -- 17 Listado con el nombre del curso y cantidad de contenidos registrados. Sólo listar aquellos cursos que tengan más de 10 contenidos registrados.
+select c.Nombre Curso, COUNT(cont.ID) as 'Cantidad de contenidos' from Cursos c
+INNER JOIN Clases cl on c.ID = cl.IDCurso
+INNER JOIN Contenidos cont on cl.ID = cont.IDClase
+GROUP by c.Nombre HAVING COUNT(cont.ID) >10
+
 -- 18 Listado con nombre del curso, nombre del idioma y cantidad de tipos de idiomas.
+select c.Nombre , i.Nombre, COUNT(ic.IDFormatoIdioma) as 'Cantidad tipos de idiomas'from Cursos c 
+INNER JOIN Idiomas_x_Curso ic on c.ID = ic.IDCurso
+INNER JOIN Idiomas i on ic.IDIdioma = i.ID
+GROUP BY i.Nombre, c.Nombre
+ORDER by c.Nombre, i.Nombre
 
 -- 19 Listado con el nombre del curso y cantidad de idiomas distintos disponibles.
+SELECT c.Nombre, COUNT(distinct ic.IDIdioma) as 'Cantidad de idiomas' from Cursos c
+INNER JOIN Idiomas_x_Curso ic on c.ID = ic.IDCurso
+GROUP by c.Nombre 
 
 -- 20 Listado de categorías de curso y cantidad de cursos asociadas a cada categoría. Sólo mostrar las categorías con más de 5 cursos.
+select cat.Nombre, COUNT(cxc.IDCurso) as 'Cantidad cursos asociados' from Categorias cat 
+INNER JOIN Categorias_x_Curso cxc on cat.ID = cxc.IDCategoria
+GROUP by cat.Nombre HAVING COUNT(cxc.IDCurso) > 5
 
 -- 21 Listado con tipos de contenido y la cantidad de contenidos asociados a cada tipo. Mostrar también aquellos tipos que no hayan registrado contenidos con cantidad 0.
+select tc.Nombre, COUNT(con.IDTipo)as 'Cantidad de contenidos' from TiposContenido tc
+LEFT JOIN Contenidos con on tc.ID = con.IDTipo
+GROUP by tc.Nombre
 
 -- 22 Listado con Nombre del curso, nivel, año de estreno y el total recaudado en concepto de inscripciones. Listar también aquellos cursos sin inscripciones con total igual a $0.
+select c.nombre as 'Nombre Curso', c.IdNivel as Nivel, c.Estreno as 'Fecha Estreno', isNull(SUM(i.Costo),0) as 'Total Recaudado' from Cursos c
+LEFT JOIN Inscripciones i on c.ID = i.IDCurso
+GROUP by c.Nombre, c.IDNivel, c.Estreno
 
 -- 23 Listado con Nombre del curso, costo de cursado y certificación y cantidad de usuarios distintos inscriptos cuyo costo de cursado sea menor a $10000 y cuya cantidad de usuarios inscriptos sea menor a 5. Listar también aquellos cursos sin inscripciones con cantidad 0.
+select c.Nombre as 'Nombre Curso', c.costoCurso as 'Costo Cursado', c.CostoCertificacion as 'Costo Certificacion', isNull(COUNT(i.IdUsuario),0) as 'Usuarios inscriptos' FROM Cursos c 
+left JOIN Inscripciones i on c.ID = i.IDCurso
+WHERE c.CostoCurso <10000
+GROUP BY c.Nombre, c.CostoCurso, c.CostoCertificacion
+HAVING COUNT(i.IDUsuario)<5 or COUNT(i.IDUsuario) is null
+
 
 -- 24 Listado con Nombre del curso, fecha de estreno y nombre del nivel del curso que más recaudó en concepto de certificaciones.
+select top 1 c.nombre, c.estreno, n.nombre from cursos c 
+left JOIN Niveles n on c.IDNivel = n.ID
+left JOIN Inscripciones i on c.ID = i.IDCurso
+INNER JOIN Certificaciones cer on i.ID = cer.IDInscripcion
+GROUP BY c.Nombre, c.Estreno, n.Nombre
+ORDER BY SUM(cer.Costo) DESC
+
 -- 25 Listado con Nombre del idioma del idioma más utilizado como subtítulo.
 
 -- 26 Listado con Nombre del curso y promedio de puntaje de reseñas apropiadas.
